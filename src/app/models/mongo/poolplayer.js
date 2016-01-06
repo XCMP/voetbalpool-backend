@@ -5,20 +5,14 @@
   var PoolplayerSchema = new mongoose.Schema({
       'name' : {
         type: String,
-        validate: {
-          validator: function(value) {
-            return value !== '';
-          },
-          message: 'Naam is verplicht'
-        }
+        required: 'Je moet een naam invullen.'
       },
       'birthday' : {
-        type: Date,
+        type: String, // TODO try making this a Date and prevent Casting before validation
+        required: 'Je moet een geboortedatum invullen.',
         validate: {
           validator: function(value) {
-            //var date = new Date(_utils.toDate(value));
-            var date = new Date(value);
-            return isNaN(date.getTime);
+            return (value.length == 10 && !isNaN(new Date(value).getTime()));
           },
           message: 'Datum is incorrect (dd-mm-jjjj)'
         }
