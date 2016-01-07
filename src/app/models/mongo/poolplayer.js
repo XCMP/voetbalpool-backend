@@ -12,7 +12,7 @@
         required: 'Je moet een geboortedatum invullen.',
         validate: {
           validator: function(value) {
-            return (value.length == 10 && !isNaN(new Date(value).getTime()));
+            return (value.length == 10 && /^\d+$/.test(value.replace(/\//g, '')) && !isNaN(new Date(value).getTime()));
           },
           message: 'Datum is incorrect (dd-mm-jjjj)'
         }
