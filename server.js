@@ -16,14 +16,14 @@
   router.route("/vp/poolplayers")
     .get(function(req,res){
       var response = {};
-      Poolplayer.find({},function(err,data){
+      Poolplayer.find({},function(err, poolplayers){
       // Mongo command to fetch all data from collection.
           if(err) {
               response = {"error" : true,"message" : "Error fetching data"};
           } else {
-              response = {"error" : false,"message" : data};
+              response = poolplayers;
           }
-          res.json(response.message);
+          res.json(response);
       });
     });
 
@@ -53,19 +53,57 @@
     });
 
   router.route("/vp/poolplayer/:id")
-    .delete(function(req,res){
+    .get(function (req,res){
+      Poolplayer.findById(req.params.id, function(err, poolplayer){
+        if(err) {
+          res.json({
+            status  : 404,
+            error   : true,
+            response: err,
+            message : 'Error getting poolpayer with id ' + req.params.id
+          });
+        } else {
+          res.json(poolplayer);
+        }
+      });
+    })
+    .put(function (req, res){
+      return Poolplayer.findById(req.params.id, function (err, poolplayer) {
+        poolplayer.name = req.body.name;
+        poolplayer.birthday =  req.body.birthday;
+        poolplayer.notes = req.body.notes;
+        return poolplayer.save(function (err) {
+          if (err) {
+            res.json({ 
+              status  : 400,
+              error   : true,
+              response: err, 
+              message : 'Poolpayer validation error.'
+            });
+          } else {
+            res.json({
+              status  : 200,
+              error   : false,
+              response: poolplayer,
+              message : 'Poolpayer created.'
+            });
+          }
+        });
+      })
+    })
+    .delete(function (req,res){
       var response = {};
       // find the data
-      Poolplayer.findById(req.params.id,function(err,data){
+      Poolplayer.findById(req.params.id, function(err, poolplayer){
           if(err) {
               response = {"error" : true,"message" : "Error fetching data"};
           } else {
               // data exists, remove it.
               Poolplayer.remove({_id : req.params.id},function(err){
                   if(err) {
-                      response = {"error" : true,"message" : "Error deleting data"};
+                      response = {"error" : true, "message" : "Error deleting data"};
                   } else {
-                      response = {"error" : true,"message" : "Data associated with "+req.params.id+"is deleted"};
+                      response = {"error" : false, "message" : "Data associated with " + req.params.id + " is deleted"};
                   }
                   res.json(response);
               });
