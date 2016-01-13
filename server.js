@@ -13,6 +13,20 @@
     next();
   });
 
+  router.route("/vp/games")
+    .get(function(req,res){
+      var response = {};
+      Game.find({},function(err, games){
+      // Mongo command to fetch all data from collection.
+          if(err) {
+              response = {"error" : true,"message" : "Error fetching data"};
+          } else {
+              response = games;
+          }
+          res.json(response);
+      });
+    });
+
   router.route("/vp/poolplayers")
     .get(function(req,res){
       var response = {};
