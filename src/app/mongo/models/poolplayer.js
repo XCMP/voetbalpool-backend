@@ -1,7 +1,5 @@
 (function(mongoose) {
 
-  mongoose.connect('mongodb://localhost:27017/voetbalpool');
-
   var PoolplayerSchema = new mongoose.Schema({
 
     'name' : {
@@ -17,13 +15,13 @@
           validator: function(value) {
             return (value.length == 10 && /^\d+$/.test(value.replace(/\//g, '')) && !isNaN(new Date(value).getTime()));
           },
-          message: 'Datum is incorrect (dd-mm-jjjj)'
+          message: 'Datum is incorrect (dd-mm-jjjj).'
         },
         {
           validator: function(value) {
             return Date.now() >= new Date(value).getTime();
           },
-          message: 'Datum kan niet in de toekomst liggen'
+          message: 'Datum kan niet in de toekomst liggen.'
         }
       ]
     },
@@ -32,6 +30,6 @@
     
   });
 
-  module.exports = mongoose.model('Poolplayer',PoolplayerSchema);
+  module.exports = mongoose.model('Poolplayer', PoolplayerSchema);
 
 })(require('mongoose'));
