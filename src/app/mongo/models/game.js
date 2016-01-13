@@ -2,7 +2,7 @@
 
   var GameSchema = new mongoose.Schema({
 
-    'date': {
+    'matchDay': {
       type: String,
       required: 'Je moet een speeldatum invullen.',
       validate: [
