@@ -15,7 +15,7 @@
 
   router.route("/vp/games")
     .get(function(req,res){
-      var response = {};
+      var response;
       Game.find({},function(err, games){
       // Mongo command to fetch all data from collection.
           if(err) {
@@ -27,9 +27,30 @@
       });
     });
 
+  router.route("/vp/game/:id")
+    .delete(function (req,res){
+      var response;
+      // find the data
+      Game.findById(req.params.id, function(err, game){
+          if(err) {
+              response = {"error" : true,"message" : "Error fetching data"};
+          } else {
+              // data exists, remove it.
+              Game.remove({_id : req.params.id},function(err){
+                  if(err) {
+                      response = {"error" : true, "message" : "Error deleting data"};
+                  } else {
+                      response = {"error" : false, "message" : "Data associated with " + req.params.id + " is deleted"};
+                  }
+                  res.json(response);
+              });
+          }
+      });
+    });
+
   router.route("/vp/poolplayers")
     .get(function(req,res){
-      var response = {};
+      var response;
       Poolplayer.find({},function(err, poolplayers){
       // Mongo command to fetch all data from collection.
           if(err) {
@@ -106,7 +127,7 @@
       })
     })
     .delete(function (req,res){
-      var response = {};
+      var response;
       // find the data
       Poolplayer.findById(req.params.id, function(err, poolplayer){
           if(err) {
