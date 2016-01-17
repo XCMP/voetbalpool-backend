@@ -1,4 +1,4 @@
-(function(express, path, bodyparser, db, Poolplayer, Game) {
+(function(express, path, bodyparser, db, Poolplayer, Game, Club) {
 
   var PORT = 3001;
   var server = express();
@@ -12,6 +12,20 @@
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
+
+  router.route("/vp/clubs")
+    .get(function(req,res){
+      var response;
+      Club.find({},function(err, clubs){
+      // Mongo command to fetch all data from collection.
+          if(err) {
+              response = {"error" : true,"message" : "Error fetching data"};
+          } else {
+              response = clubs;
+          }
+          res.json(response);
+      });
+    });
 
   router.route("/vp/games")
     .get(function(req,res){
@@ -154,5 +168,6 @@
 })(require('express'), require('path'), require('body-parser'),
     require('./src/app/mongo/db'),
     require('./src/app/mongo/models/poolplayer'),
-    require('./src/app/mongo/models/game')
+    require('./src/app/mongo/models/game'),
+    require('./src/app/mongo/models/club')
   );
