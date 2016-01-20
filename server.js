@@ -1,4 +1,4 @@
-(function(express, path, bodyparser, db, Poolplayer, Game, Club) {
+(function(express, path, bodyparser, db, Poolplayer, Club, Game) {
 
   var PORT = 3001;
   var server = express();
@@ -28,9 +28,11 @@
     });
 
   router.route("/vp/games")
-    .get(function(req,res){
+    .get(function(req,res) {
       var response;
-      Game.find({},function(err, games){
+      Game.find({})
+      .populate('homeTeam awayTeam')
+      .exec(function(err, games){
       // Mongo command to fetch all data from collection.
           if(err) {
               response = {"error" : true,"message" : "Error fetching data"};
@@ -43,7 +45,9 @@
 
   router.route("/vp/game/:id")
     .get(function (req,res){
-      Game.findById(req.params.id, function(err, game){
+      Game.findById(req.params.id)
+        .populate('homeTeam awayTeam')
+        .exec(function(err, game){
         if(err) {
           res.json({
             status  : 404,
@@ -182,6 +186,6 @@
 })(require('express'), require('path'), require('body-parser'),
     require('./src/app/mongo/db'),
     require('./src/app/mongo/models/poolplayer'),
-    require('./src/app/mongo/models/game'),
-    require('./src/app/mongo/models/club')
+    require('./src/app/mongo/models/club'),
+    require('./src/app/mongo/models/game')
   );
