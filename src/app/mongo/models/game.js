@@ -16,31 +16,13 @@
     },
 
     'homeTeam': {
-      type: String,
-      required: 'Je moet de thuisspelende club invullen.',
-      validate: [
-        {
-          validator: function(value) {
-            // TODO check against list of teams
-            return true;
-          },
-          message: 'Kies een culb uit de lijst.'
-        }
-      ]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Club'
     },
 
     'awayTeam': {
-      type: String,
-      required: 'Je moet de uitspelende club invullen.',
-      validate: [
-        {
-          validator: function(value) {
-            // TODO check against list of teams
-            return true;
-          },
-          message: 'Kies een culb uit de lijst.'
-        }
-      ]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Club'
     },
 
     'homeTeamGoals': {
