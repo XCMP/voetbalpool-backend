@@ -42,6 +42,20 @@
     });
 
   router.route("/vp/game/:id")
+    .get(function (req,res){
+      Game.findById(req.params.id, function(err, game){
+        if(err) {
+          res.json({
+            status  : 404,
+            error   : true,
+            response: err,
+            message : 'Error getting game with id ' + req.params.id
+          });
+        } else {
+          res.json(game);
+        }
+      });
+    })
     .delete(function (req,res){
       var response;
       // find the data
