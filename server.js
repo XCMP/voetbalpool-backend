@@ -32,6 +32,7 @@
       var response;
       Game.find({})
       .populate('homeTeam awayTeam')
+      .sort({ matchDay: -1})
       .exec(function(err, games){
       // Mongo command to fetch all data from collection.
           if(err) {
