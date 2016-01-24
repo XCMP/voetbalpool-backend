@@ -51,7 +51,6 @@
   router.route("/vp/game")
     .post(function(req,res){
       var game = new Game();
-      console.log(req.body);
       game.matchDay = req.body.matchDay;
       game.homeTeam =  req.body.homeTeam;
       game.awayTeam =  req.body.awayTeam;
@@ -93,6 +92,33 @@
           res.json(game);
         }
       });
+    })
+    .put(function (req, res){
+      return Game.findById(req.params.id, function (err, game) {
+        game.matchDay = req.body.matchDay;
+        game.homeTeam =  req.body.homeTeam;
+        game.awayTeam =  req.body.awayTeam;
+        game.homeTeamGoals =  req.body.homeTeamGoals;
+        game.awayTeamGoals =  req.body.awayTeamGoals;
+        game.notes = req.body.notes;
+        return game.save(function (err) {
+          if (err) {
+            res.json({ 
+              status  : 400,
+              error   : true,
+              response: err, 
+              message : 'Game validation error.'
+            });
+          } else {
+            res.json({
+              status  : 200,
+              error   : false,
+              response: game,
+              message : 'Game saved.'
+            });
+          }
+        });
+      })
     })
     .delete(function (req,res){
       var response;
@@ -186,7 +212,7 @@
               status  : 200,
               error   : false,
               response: poolplayer,
-              message : 'Poolpayer created.'
+              message : 'Poolpayer saved.'
             });
           }
         });
