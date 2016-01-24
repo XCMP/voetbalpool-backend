@@ -48,6 +48,35 @@
       });
     });
 
+  router.route("/vp/game")
+    .post(function(req,res){
+      var game = new Game();
+      console.log(req.body);
+      game.matchDay = req.body.matchDay;
+      game.homeTeam =  req.body.homeTeam;
+      game.awayTeam =  req.body.awayTeam;
+      game.homeTeamGoals =  req.body.homeTeamGoals;
+      game.awayTeamGoals =  req.body.awayTeamGoals;
+      game.notes = req.body.notes;
+      game.save(function(err){
+        if (err) {
+          res.json({ 
+            status  : 400,
+            error   : true,
+            response: err, 
+            message : 'Game validation error.'
+          });
+        } else {
+          res.json({
+            status  : 201,
+            error   : false,
+            response: game,
+            message : 'Game created.'
+          });
+        }
+      });
+    });
+
   router.route("/vp/game/:id")
     .get(function (req,res){
       Game.findById(req.params.id)
