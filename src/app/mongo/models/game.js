@@ -3,26 +3,29 @@
   var GameSchema = new mongoose.Schema({
 
     'matchDay': {
-      type: String,
+      type: Date,
       required: 'Je moet een speeldatum invullen.',
       validate: [
         {
           validator: function(value) {
-            return (value.length == 10 && /^\d+$/.test(value.replace(/\//g, '')) && !isNaN(new Date(value).getTime()));
+            return !isNaN(new Date(value).getTime());
+            //return (value.length == 16 && /^\d+$/.test(value.replace(/[\/, ,:]/g, '')) && !isNaN(new Date(value).getTime()));
           },
-          message: 'Speeldatum is incorrect (dd-mm-jjjj).'
+          message: 'Speeldatum is incorrect (dd-mm-jjjj hh:mm).'
         }
       ]
     },
 
     'homeTeam': {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Club'
+        ref: 'Club',
+        required: 'Je moet een thuis spelend team invullen.',
     },
 
     'awayTeam': {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Club'
+        ref: 'Club',
+        required: 'Je moet een uit spelend team invullen.',
     },
 
     'homeTeamGoals': {
