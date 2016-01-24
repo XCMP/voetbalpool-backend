@@ -1,4 +1,8 @@
-(function(express, path, bodyparser, db, Poolplayer, Club, Game) {
+(function(express, path, bodyparser, 
+
+        db, Poolplayer, Club, Game
+
+  ) {
 
   var PORT = 3001;
   var server = express();
@@ -180,13 +184,15 @@
     });
 
   server.use('/',router);
-
   server.listen(PORT);
+
   console.log('Voetbalpool backend server running on PORT %s', PORT);
 
 })(require('express'), require('path'), require('body-parser'),
+
     require('./src/app/mongo/db'),
     require('./src/app/mongo/models/poolplayer'),
     require('./src/app/mongo/models/club'),
     require('./src/app/mongo/models/game')
+
   );
