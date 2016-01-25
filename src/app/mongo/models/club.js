@@ -7,9 +7,9 @@
       required: 'Je moet de naam invullen.'
     },
 
-    'logo': {
+    'logoBase64Url': {
       type: String,
-      required: 'Je moet de Base64 image url invullen.',
+      required: 'Je moet de base64 image url invullen.',
     }
 
   });
