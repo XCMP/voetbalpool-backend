@@ -1,6 +1,6 @@
 (function(express, path, bodyparser, 
 
-        db, Poolplayer, Club, Game
+        db, Poolplayer, Club, Game, Prediction
 
   ) {
 
@@ -16,6 +16,26 @@
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
+
+  router.route("/vp/predictions")
+    .get(function(req,res){
+      var response;
+      Prediction.find({})
+      .populate('poolplayer')
+      .populate({
+        path: 'game',
+        populate: {path:'homeTeam awayTeam', model:'Club'}
+      })
+      .exec(function(err, predictions){
+        // Mongo command to fetch all data from collection.
+        if(err) {
+            response = {"error" : true,"message" : "Error fetching data"};
+        } else {
+            response = predictions;
+        }
+        res.json(response);
+      });
+    });
 
   router.route("/vp/clubs")
     .get(function(req,res){
@@ -331,6 +351,7 @@
     require('./src/app/mongo/db'),
     require('./src/app/mongo/models/poolplayer'),
     require('./src/app/mongo/models/club'),
-    require('./src/app/mongo/models/game')
+    require('./src/app/mongo/models/game'),
+    require('./src/app/mongo/models/prediction')
 
   );
