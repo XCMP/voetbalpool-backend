@@ -9,7 +9,6 @@
         {
           validator: function(value) {
             return !isNaN(new Date(value).getTime());
-            //return (value.length == 16 && /^\d+$/.test(value.replace(/[\/, ,:]/g, '')) && !isNaN(new Date(value).getTime()));
           },
           message: 'Speeldatum is incorrect (dd-mm-jjjj hh:mm).'
         }

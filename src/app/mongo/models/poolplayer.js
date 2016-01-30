@@ -8,12 +8,12 @@
     },
 
     'birthday' : {
-      type: String, // TODO try making this a Date and prevent Casting before validation
+      type: Date,
       required: 'Je moet een geboortedatum invullen.',
       validate: [
         {
           validator: function(value) {
-            return (value.length == 10 && /^\d+$/.test(value.replace(/\//g, '')) && !isNaN(new Date(value).getTime()));
+            return !isNaN(new Date(value).getTime());
           },
           message: 'Datum is incorrect (dd-mm-jjjj).'
         },
