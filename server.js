@@ -50,23 +50,63 @@
       });
     });
 
-  router.route('/vp/predictions')
+  // router.route('/vp/predictions')
+  //   .get(function(req,res){
+  //     var response;
+  //     Prediction.find({})
+  //     .populate('poolplayer')
+  //     .populate({
+  //       path: 'game',
+  //       populate: {path:'homeTeam awayTeam', model:'Club'}
+  //     })
+  //     .exec(function(err, predictions){
+  //       // Mongo command to fetch all data from collection.
+  //       if(err) {
+  //           response = {'error' : true,'message' : 'Error fetching data'};
+  //       } else {
+  //           response = predictions;
+  //       }
+  //       res.json(response);
+  //     });
+  //   });
+
+  router.route('/vp/predictions/:yyyy/:mm')
     .get(function(req,res){
+      var year = req.params.yyyy;
+      var monthIndex = parseInt(req.params.mm, 10) - 1;
+      var from = new Date(year, monthIndex, 1).getTime();
+      var to = new Date(year, monthIndex+1, 1).getTime();
       var response;
-      Prediction.find({})
-      .populate('poolplayer')
-      .populate({
-        path: 'game',
-        populate: {path:'homeTeam awayTeam', model:'Club'}
+      // fetch games in period
+      Game.find({
+        'matchDay': {
+          $gte: new Date(from),
+          $lt: new Date(to)
+        }
       })
-      .exec(function(err, predictions){
-        // Mongo command to fetch all data from collection.
+      .select({ _id: 1})
+      .exec(function(err, gameIds){
         if(err) {
             response = {'error' : true,'message' : 'Error fetching data'};
         } else {
-            response = predictions;
+          // fetch predictions for found games
+          Prediction.find({
+            'game': {$in: gameIds}
+          })
+          .populate('poolplayer')
+          .populate({
+            path: 'game',
+            populate: {path:'homeTeam awayTeam', model:'Club'}
+          })
+          .exec(function(err, predictions){
+            if(err) {
+                response = {'error' : true,'message' : 'Error fetching data'};
+            } else {
+              response = predictions;
+            }
+            res.json(response);
+          })
         }
-        res.json(response);
       });
     });
 
