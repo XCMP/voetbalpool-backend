@@ -113,7 +113,6 @@
   router.route('/vp/prediction')
     .post(function(req,res){
       var prediction = new Prediction();
-      console.log(req.body);
       prediction.poolplayer = req.body.poolplayer;
       prediction.game = req.body.game;
       prediction.homeTeamGoals = req.body.homeTeamGoals;
@@ -138,44 +137,46 @@
     });
 
   router.route('/vp/prediction/:id')
-    // .get(function (req,res){
-    //   Club.findById(req.params.id)
-    //     .exec(function(err, club){
-    //     if(err) {
-    //       res.json({
-    //         status  : 404,
-    //         error   : true,
-    //         response: err,
-    //         message : 'Error getting club with id ' + req.params.id
-    //       });
-    //     } else {
-    //       res.json(club);
-    //     }
-    //   });
-    // })
-    // .put(function (req, res){
-    //   return Club.findById(req.params.id, function (err, club) {
-    //     club.name = req.body.name;
-    //     club.logoBase64Url =  req.body.logoBase64Url;
-    //     return club.save(function (err) {
-    //       if (err) {
-    //         res.json({ 
-    //           status  : 400,
-    //           error   : true,
-    //           response: err, 
-    //           message : 'Club validation error.'
-    //         });
-    //       } else {
-    //         res.json({
-    //           status  : 200,
-    //           error   : false,
-    //           response: club,
-    //           message : 'Club saved.'
-    //         });
-    //       }
-    //     });
-    //   })
-    // })
+    .get(function (req,res){
+      Prediction.findById(req.params.id)
+        .exec(function(err, prediction){
+        if(err) {
+          res.json({
+            status  : 404,
+            error   : true,
+            response: err,
+            message : 'Error getting club with id ' + req.params.id
+          });
+        } else {
+          res.json(prediction);
+        }
+      });
+    })
+    .put(function (req, res){
+      return Prediction.findById(req.params.id, function (err, prediction) {
+        prediction.poolplayer = req.body.poolplayer;
+        prediction.game = req.body.game;
+        prediction.homeTeamGoals = req.body.homeTeamGoals;
+        prediction.awayTeamGoals = req.body.awayTeamGoals;
+        return prediction.save(function (err) {
+          if (err) {
+            res.json({ 
+              status  : 400,
+              error   : true,
+              response: err, 
+              message : 'Prediction validation error.'
+            });
+          } else {
+            res.json({
+              status  : 200,
+              error   : false,
+              response: prediction,
+              message : 'Prediction saved.'
+            });
+          }
+        });
+      })
+    })
     .delete(function (req,res){
       var response;
       // find the data
