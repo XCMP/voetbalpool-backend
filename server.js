@@ -110,6 +110,33 @@
       });
     });
 
+  router.route('/vp/prediction')
+    .post(function(req,res){
+      var prediction = new Prediction();
+      console.log(req.body);
+      prediction.poolplayer = req.body.poolplayer;
+      prediction.game = req.body.game;
+      prediction.homeTeamGoals = req.body.homeTeamGoals;
+      prediction.awayTeamGoals = req.body.awayTeamGoals;
+      prediction.save(function(err){
+        if (err) {
+          res.json({ 
+            status  : 400,
+            error   : true,
+            response: err, 
+            message : 'Prediction validation error.'
+          });
+        } else {
+          res.json({
+            status  : 201,
+            error   : false,
+            response: prediction,
+            message : 'Prediction created.'
+          });
+        }
+      });
+    });
+
   router.route('/vp/prediction/:id')
     // .get(function (req,res){
     //   Club.findById(req.params.id)
