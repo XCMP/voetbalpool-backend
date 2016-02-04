@@ -110,6 +110,65 @@
       });
     });
 
+  router.route('/vp/prediction/:id')
+    // .get(function (req,res){
+    //   Club.findById(req.params.id)
+    //     .exec(function(err, club){
+    //     if(err) {
+    //       res.json({
+    //         status  : 404,
+    //         error   : true,
+    //         response: err,
+    //         message : 'Error getting club with id ' + req.params.id
+    //       });
+    //     } else {
+    //       res.json(club);
+    //     }
+    //   });
+    // })
+    // .put(function (req, res){
+    //   return Club.findById(req.params.id, function (err, club) {
+    //     club.name = req.body.name;
+    //     club.logoBase64Url =  req.body.logoBase64Url;
+    //     return club.save(function (err) {
+    //       if (err) {
+    //         res.json({ 
+    //           status  : 400,
+    //           error   : true,
+    //           response: err, 
+    //           message : 'Club validation error.'
+    //         });
+    //       } else {
+    //         res.json({
+    //           status  : 200,
+    //           error   : false,
+    //           response: club,
+    //           message : 'Club saved.'
+    //         });
+    //       }
+    //     });
+    //   })
+    // })
+    .delete(function (req,res){
+      var response;
+      // find the data
+      Prediction.findById(req.params.id, function(err, prediction){
+        if(err) {
+          response = {'error' : true,'message' : 'Error fetching data'};
+        } else {
+          // data exists, remove it.
+          Prediction.remove({_id : req.params.id},function(err){
+              if(err) {
+                  response = {'error' : true, 'message' : 'Error deleting data'};
+              } else {
+                  response = {'error' : false, 'message' : 'Data associated with ' + req.params.id + ' is deleted'};
+              }
+              res.json(response);
+          });
+        }
+      });
+    });
+
   router.route('/vp/clubs')
     .get(function(req,res){
       var response;
