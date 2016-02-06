@@ -50,26 +50,6 @@
       });
     });
 
-  // router.route('/vp/predictions')
-  //   .get(function(req,res){
-  //     var response;
-  //     Prediction.find({})
-  //     .populate('poolplayer')
-  //     .populate({
-  //       path: 'game',
-  //       populate: {path:'homeTeam awayTeam', model:'Club'}
-  //     })
-  //     .exec(function(err, predictions){
-  //       // Mongo command to fetch all data from collection.
-  //       if(err) {
-  //           response = {'error' : true,'message' : 'Error fetching data'};
-  //       } else {
-  //           response = predictions;
-  //       }
-  //       res.json(response);
-  //     });
-  //   });
-
   router.route('/vp/predictions/:yyyy/:mm')
     .get(function(req,res){
       var year = req.params.yyyy;
