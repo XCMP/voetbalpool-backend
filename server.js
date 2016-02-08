@@ -1,6 +1,8 @@
 (function(express, path, bodyparser, 
 
-        db, Poolplayer, Club, Game, Prediction
+        db, Poolplayer, Club, Game, Prediction,
+
+        calculateScores
 
   ) {
 
@@ -359,6 +361,7 @@
               response: game,
               message : 'Game saved.'
             });
+            calculateScores(game._id);
           }
         });
       })
@@ -492,6 +495,8 @@
     require('./src/app/mongo/models/poolplayer'),
     require('./src/app/mongo/models/club'),
     require('./src/app/mongo/models/game'),
-    require('./src/app/mongo/models/prediction')
+    require('./src/app/mongo/models/prediction'),
+
+    require('./src/app/services/calculateScores.js')
 
   );
