@@ -29,12 +29,28 @@
 
     'homeTeamGoals': {
       type: Number,
-      default: null
+      default: null,
+      validate: [
+        {
+          validator: function(value) {
+            return (this.awayTeamGoals !== null && value !== null) || (this.awayTeamGoals == null && value == null);
+          },
+          message: 'Vul de hele uitslag in.'
+        }
+      ]
     },
 
     'awayTeamGoals': {
       type: Number,
-      default: null
+      default: null,
+      validate: [
+        {
+          validator: function(value) {
+            return (this.homeTeamGoals !== null && value !== null) || (this.homeTeamGoals == null && value == null);
+          },
+          message: 'Vul de hele uitslag in.'
+        }
+      ]
     },
 
     'notes': String
