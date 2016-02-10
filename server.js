@@ -276,10 +276,19 @@
       });
     });
 
-  router.route('/vp/games')
+  router.route('/vp/games/:yyyy/:mm')
     .get(function(req,res) {
+      var year = req.params.yyyy;
+      var monthIndex = parseInt(req.params.mm, 10) - 1;
+      var from = new Date(year, monthIndex, 1).getTime();
+      var to = new Date(year, monthIndex+1, 1).getTime();
       var response;
-      Game.find({})
+      Game.find({
+        'matchDay': {
+          $gte: new Date(from),
+          $lt: new Date(to)
+        }
+      })
       .populate('homeTeam awayTeam')
       .sort({ matchDay: -1})
       .exec(function(err, games){
