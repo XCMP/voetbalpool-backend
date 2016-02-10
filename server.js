@@ -276,19 +276,24 @@
       });
     });
 
-  router.route('/vp/games/:yyyy/:mm')
-    .get(function(req,res) {
+  var getGames = function(req,res) {
+    var filter;
+    if (req.params.yyyy) {
       var year = req.params.yyyy;
       var monthIndex = parseInt(req.params.mm, 10) - 1;
       var from = new Date(year, monthIndex, 1).getTime();
       var to = new Date(year, monthIndex+1, 1).getTime();
-      var response;
-      Game.find({
+      filter = {
         'matchDay': {
           $gte: new Date(from),
           $lt: new Date(to)
         }
-      })
+      };
+    } else {
+      filter = {};
+    }
+    var response;
+      Game.find(filter)
       .populate('homeTeam awayTeam')
       .sort({ matchDay: -1})
       .exec(function(err, games){
@@ -300,7 +305,12 @@
         }
         res.json(response);
       });
-    });
+    };
+
+  router.route('/vp/games/:yyyy/:mm')
+    .get(getGames);
+  router.route('/vp/games')
+    .get(getGames);
 
   router.route('/vp/game')
     .post(function(req,res){
