@@ -57,6 +57,9 @@
 
   });
 
+  GameSchema.index({homeTeam: 1, awayTeam: 1}, {unique: true});
+
+
   module.exports = mongoose.model('Game', GameSchema);
 
 })(require('mongoose'));

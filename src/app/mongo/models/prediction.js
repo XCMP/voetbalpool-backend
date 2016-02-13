@@ -31,6 +31,8 @@
 
   });
 
+  PredictionSchema.index({poolplayer: 1, game: 1}, {unique: true});
+
   module.exports = mongoose.model('Prediction', PredictionSchema);
 
 })(require('mongoose'));
