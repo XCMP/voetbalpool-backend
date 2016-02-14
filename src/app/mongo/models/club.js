@@ -14,6 +14,8 @@
 
   });
 
+  ClubSchema.index({name: 1}, {unique: true});
+
   module.exports = mongoose.model('Club', ClubSchema);
 
 })(require('mongoose'));
