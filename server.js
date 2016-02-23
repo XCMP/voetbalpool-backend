@@ -393,6 +393,8 @@
           response = {'error' : true,'message' : 'Error fetching data'};
         } else {
           // data exists, remove it.
+          // first remove predictions for this game
+          Prediction.remove({game : req.params.id}).exec();
           Game.remove({_id : req.params.id},function(err){
               if(err) {
                   response = {'error' : true, 'message' : 'Error deleting data'};
@@ -491,6 +493,8 @@
           response = {'error' : true,'message' : 'Error fetching data'};
         } else {
           // data exists, remove it.
+          // first remove predictions of this player
+          Prediction.remove({poolplayer : req.params.id}).exec();
           Poolplayer.remove({_id : req.params.id},function(err){
               if(err) {
                   response = {'error' : true, 'message' : 'Error deleting data'};
