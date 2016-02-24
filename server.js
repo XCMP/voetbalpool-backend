@@ -1,4 +1,4 @@
-(function(express, path, bodyparser, 
+(function (express, path, bodyparser, 
 
         db, Poolplayer, Club, Game, Prediction,
 
@@ -12,7 +12,7 @@
 
   server.use(bodyparser.json());
   server.use(bodyparser.urlencoded({'extended' : false}));
-  server.use(function(req, res, next) {
+  server.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -20,7 +20,7 @@
   });
 
   router.route('/vp/prediction/months')
-    .get(function(req,res) {
+    .get(function (req, res) {
       var response;
       Game.aggregate([
         { $project: {
@@ -41,7 +41,7 @@
         },
         { $sort: { 'yyyymm': -1 } }
       ])
-      .exec(function(err, games) {
+      .exec(function (err, games) {
         // Mongo command to fetch all data from collection.
         if (err) {
             response = {'error' : true, 'message' : 'Error fetching data'};
@@ -53,7 +53,7 @@
     });
 
   router.route('/vp/predictions/:yyyy/:mm')
-    .get(function(req,res) {
+    .get(function (req, res) {
       var year = req.params.yyyy;
       var monthIndex = parseInt(req.params.mm, 10) - 1;
       var from = new Date(year, monthIndex, 1).getTime();
@@ -67,7 +67,7 @@
         }
       })
       .select({ _id: 1})
-      .exec(function(err, gameIds) {
+      .exec(function (err, gameIds) {
         if (err) {
             response = {'error' : true,'message' : 'Error fetching data'};
         } else {
@@ -80,26 +80,26 @@
             path: 'game',
             populate: {path:'homeTeam awayTeam', model:'Club'}
           })
-          .exec(function(err, predictions) {
+          .exec(function (err, predictions) {
             if (err) {
                 response = {'error' : true,'message' : 'Error fetching data'};
             } else {
               response = predictions;
             }
             res.json(response);
-          })
+          });
         }
       });
     });
 
   router.route('/vp/prediction')
-    .post(function(req,res) {
+    .post(function (req, res) {
       var prediction = new Prediction();
       prediction.poolplayer = req.body.poolplayer;
       prediction.game = req.body.game;
       prediction.homeTeamGoals = req.body.homeTeamGoals;
       prediction.awayTeamGoals = req.body.awayTeamGoals;
-      prediction.save(function(err) {
+      prediction.save(function (err) {
         if (err) {
           res.json({ 
             status  : 400,
@@ -119,9 +119,9 @@
     });
 
   router.route('/vp/prediction/:id')
-    .get(function (req,res) {
+    .get(function (req, res) {
       Prediction.findById(req.params.id)
-        .exec(function(err, prediction) {
+        .exec(function (err, prediction) {
         if (err) {
           res.json({
             status  : 404,
@@ -157,17 +157,17 @@
             });
           }
         });
-      })
+      });
     })
-    .delete(function (req,res) {
+    .delete(function (req, res) {
       var response;
       // find the data
-      Prediction.findById(req.params.id, function(err, prediction) {
+      Prediction.findById(req.params.id, function (err, prediction) {
         if (err) {
           response = {'error' : true,'message' : 'Error fetching data'};
         } else {
           // data exists, remove it.
-          Prediction.remove({_id : req.params.id},function(err) {
+          Prediction.remove({_id : req.params.id},function (err) {
               if (err) {
                   response = {'error' : true, 'message' : 'Error deleting data'};
               } else {
@@ -180,9 +180,9 @@
     });
 
   router.route('/vp/clubs')
-    .get(function(req,res) {
+    .get(function (req, res) {
       var response;
-      Club.find({},function(err, clubs) {
+      Club.find({},function (err, clubs) {
         // Mongo command to fetch all data from collection.
         if (err) {
             response = {'error' : true,'message' : 'Error fetching data'};
@@ -194,11 +194,11 @@
     });
 
   router.route('/vp/club')
-    .post(function(req,res) {
+    .post(function (req, res) {
       var club = new Club();
       club.name = req.body.name;
       club.logoBase64Url =  req.body.logoBase64Url;
-      club.save(function(err) {
+      club.save(function (err) {
         if (err) {
           res.json({ 
             status  : 400,
@@ -218,9 +218,9 @@
     });
 
   router.route('/vp/club/:id')
-    .get(function (req,res) {
+    .get(function (req, res) {
       Club.findById(req.params.id)
-        .exec(function(err, club) {
+        .exec(function (err, club) {
         if (err) {
           res.json({
             status  : 404,
@@ -254,17 +254,17 @@
             });
           }
         });
-      })
+      });
     })
-    .delete(function (req,res) {
+    .delete(function (req, res) {
       var response;
       // find the data
-      Club.findById(req.params.id, function(err, club) {
+      Club.findById(req.params.id, function (err, club) {
         if (err) {
           response = {'error' : true,'message' : 'Error fetching data'};
         } else {
           // data exists, remove it.
-          Club.remove({_id : req.params.id},function(err) {
+          Club.remove({_id : req.params.id},function (err) {
               if (err) {
                   response = {'error' : true, 'message' : 'Error deleting data'};
               } else {
@@ -276,7 +276,7 @@
       });
     });
 
-  var getGames = function(req,res) {
+  var getGames = function (req, res) {
     var filter;
     if (req.params.yyyy) {
       var year = req.params.yyyy;
@@ -296,7 +296,7 @@
       Game.find(filter)
       .populate('homeTeam awayTeam')
       .sort({ matchDay: -1})
-      .exec(function(err, games) {
+      .exec(function (err, games) {
         // Mongo command to fetch all data from collection.
         if (err) {
             response = {'error' : true,'message' : 'Error fetching data'};
@@ -313,7 +313,7 @@
     .get(getGames);
 
   router.route('/vp/game')
-    .post(function(req,res) {
+    .post(function (req, res) {
       var game = new Game();
       game.matchDay = req.body.matchDay;
       game.homeTeam =  req.body.homeTeam;
@@ -321,7 +321,7 @@
       game.homeTeamGoals =  req.body.homeTeamGoals;
       game.awayTeamGoals =  req.body.awayTeamGoals;
       game.notes = req.body.notes;
-      game.save(function(err) {
+      game.save(function (err) {
         if (err) {
           res.json({ 
             status  : 400,
@@ -341,10 +341,10 @@
     });
 
   router.route('/vp/game/:id')
-    .get(function (req,res) {
+    .get(function (req, res) {
       Game.findById(req.params.id)
         .populate('homeTeam awayTeam')
-        .exec(function(err, game) {
+        .exec(function (err, game) {
         if (err) {
           res.json({
             status  : 404,
@@ -383,19 +383,19 @@
             calculateScores(game._id);
           }
         });
-      })
+      });
     })
-    .delete(function (req,res) {
+    .delete(function (req, res) {
       var response;
       // find the data
-      Game.findById(req.params.id, function(err, game) {
+      Game.findById(req.params.id, function (err, game) {
         if (err) {
           response = {'error' : true,'message' : 'Error fetching data'};
         } else {
           // data exists, remove it.
           // first remove predictions for this game
           Prediction.remove({game : req.params.id}).exec();
-          Game.remove({_id : req.params.id},function(err) {
+          Game.remove({_id : req.params.id},function (err) {
               if (err) {
                   response = {'error' : true, 'message' : 'Error deleting data'};
               } else {
@@ -408,9 +408,9 @@
     });
 
   router.route('/vp/poolplayers')
-    .get(function(req,res) {
+    .get(function (req, res) {
       var response;
-      Poolplayer.find({},function(err, poolplayers) {
+      Poolplayer.find({},function (err, poolplayers) {
       // Mongo command to fetch all data from collection.
           if (err) {
               response = {'error' : true,'message' : 'Error fetching data'};
@@ -422,12 +422,12 @@
     });
 
   router.route('/vp/poolplayer')
-    .post(function(req,res) {
+    .post(function (req, res) {
       var poolplayer = new Poolplayer();
       poolplayer.name = req.body.name;
       poolplayer.birthday =  req.body.birthday;
       poolplayer.notes = req.body.notes;
-      poolplayer.save(function(err) {
+      poolplayer.save(function (err) {
         if (err) {
           res.json({ 
             status  : 400,
@@ -447,8 +447,8 @@
     });
 
   router.route('/vp/poolplayer/:id')
-    .get(function (req,res) {
-      Poolplayer.findById(req.params.id, function(err, poolplayer) {
+    .get(function (req, res) {
+      Poolplayer.findById(req.params.id, function (err, poolplayer) {
         if (err) {
           res.json({
             status  : 404,
@@ -483,19 +483,19 @@
             });
           }
         });
-      })
+      });
     })
-    .delete(function (req,res) {
+    .delete(function (req, res) {
       var response;
       // find the data
-      Poolplayer.findById(req.params.id, function(err, poolplayer) {
+      Poolplayer.findById(req.params.id, function (err, poolplayer) {
         if (err) {
           response = {'error' : true,'message' : 'Error fetching data'};
         } else {
           // data exists, remove it.
           // first remove predictions of this player
           Prediction.remove({poolplayer : req.params.id}).exec();
-          Poolplayer.remove({_id : req.params.id},function(err) {
+          Poolplayer.remove({_id : req.params.id},function (err) {
               if (err) {
                   response = {'error' : true, 'message' : 'Error deleting data'};
               } else {
