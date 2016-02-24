@@ -1,4 +1,4 @@
-(function(mongoose) {
+(function (mongoose) {
 
   var GameSchema = new mongoose.Schema({
 
@@ -7,7 +7,7 @@
       required: 'Je moet een speeldatum invullen.',
       validate: [
         {
-          validator: function(value) {
+          validator: function (value) {
             return !isNaN(new Date(value).getTime());
           },
           message: 'Speeldatum is incorrect (dd-mm-jjjj hh:mm).'
@@ -32,7 +32,7 @@
       default: null,
       validate: [
         {
-          validator: function(value) {
+          validator: function (value) {
             return (this.awayTeamGoals !== null && value !== null) || (this.awayTeamGoals === null && value === null);
           },
           message: 'Vul de hele uitslag in.'
@@ -45,7 +45,7 @@
       default: null,
       validate: [
         {
-          validator: function(value) {
+          validator: function (value) {
             return (this.homeTeamGoals !== null && value !== null) || (this.homeTeamGoals === null && value === null);
           },
           message: 'Vul de hele uitslag in.'

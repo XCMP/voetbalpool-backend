@@ -1,4 +1,4 @@
-(function(mongoose) {
+(function (mongoose) {
 
   var ClubSchema = new mongoose.Schema({
 

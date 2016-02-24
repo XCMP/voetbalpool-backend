@@ -1,4 +1,4 @@
-(function(mongoose) {
+(function (mongoose) {
 
   var PredictionSchema = new mongoose.Schema({
 

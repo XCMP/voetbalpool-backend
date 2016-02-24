@@ -1,4 +1,4 @@
-(function(mongoose) {
+(function (mongoose) {
 
   var PoolplayerSchema = new mongoose.Schema({
 
@@ -12,13 +12,13 @@
       required: 'Je moet een geboortedatum invullen.',
       validate: [
         {
-          validator: function(value) {
+          validator: function (value) {
             return !isNaN(new Date(value).getTime());
           },
           message: 'Datum is incorrect (dd-mm-jjjj).'
         },
         {
-          validator: function(value) {
+          validator: function (value) {
             return Date.now() >= new Date(value).getTime();
           },
           message: 'Datum kan niet in de toekomst liggen.'
