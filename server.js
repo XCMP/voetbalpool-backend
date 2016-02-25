@@ -1,4 +1,4 @@
-(function (express, path, bodyparser, 
+(function (express, path, bodyparser, _,
 
         db, Poolplayer, Club, Game, Prediction,
 
@@ -263,7 +263,18 @@
         if (err) {
           response = {'error' : true,'message' : 'Error fetching data'};
         } else {
-          // data exists, remove it.
+          // data exists, find related games and predictions and remove them.
+          Game.find().or([{homeTeam : club._id}, {awayTeam: club._id}]).exec(function (err, games) {
+            _.each(games, function(game, i) {
+              Game.remove({_id : game._id}).exec();
+              Prediction.find({game : game._id}).exec(function (err, predictions) {
+                _.each(predictions, function(prediction, i) {
+                  Prediction.remove({_id : prediction._id}).exec();
+                });
+              });
+            })
+          });
+          // data exists, remove the club.
           Club.remove({_id : req.params.id},function (err) {
               if (err) {
                   response = {'error' : true, 'message' : 'Error deleting data'};
@@ -512,7 +523,7 @@
 
   console.log('Voetbalpool backend server running on PORT %s', PORT);
 
-})(require('express'), require('path'), require('body-parser'),
+})(require('express'), require('path'), require('body-parser'), require('underscore'),
 
     require('./src/app/mongo/db'),
     require('./src/app/mongo/models/poolplayer'),
