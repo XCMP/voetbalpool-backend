@@ -182,16 +182,18 @@
   router.route('/vp/clubs')
     .get(function (req, res) {
       var response;
-      Club.find({},function (err, clubs) {
-        // Mongo command to fetch all data from collection.
-        if (err) {
-            response = {'error' : true,'message' : 'Error fetching data'};
-        } else {
-            response = clubs;
-        }
-        res.json(response);
+      Club.find({})
+        .sort({ name: 1})
+        .exec(function (err, clubs) {
+          // Mongo command to fetch all data from collection.
+          if (err) {
+              response = {'error' : true,'message' : 'Error fetching data'};
+          } else {
+              response = clubs;
+          }
+          res.json(response);
+        });
       });
-    });
 
   router.route('/vp/club')
     .post(function (req, res) {
