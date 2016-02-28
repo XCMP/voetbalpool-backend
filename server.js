@@ -289,11 +289,11 @@
       });
     });
 
-  var getGames = function (req, res, filter, sort) {
+  var getGames = function (req, res, filter) {
     var response;
     Game.find(filter)
       .populate('homeTeam awayTeam')
-      .sort(sort)
+      .sort({ matchDay: 1})
       .exec(function (err, games) {
         // Mongo command to fetch all data from collection.
         if (err) {
@@ -317,8 +317,7 @@
           $lt: new Date(to)
         }
       };
-      var sort = { matchDay: -1};
-      return getGames(req, res, filter, sort);
+      return getGames(req, res, filter);
     });
   router.route('/vp/games')
     .get(function (req, res) {
@@ -327,8 +326,7 @@
           $gte: Date.now()
         }
       };
-      var sort = { matchDay: 1};
-      return getGames(req, res, filter, sort);
+      return getGames(req, res, filter);
     });
 
   router.route('/vp/game')
