@@ -289,26 +289,11 @@
       });
     });
 
-  var getGames = function (req, res) {
-    var filter;
-    if (req.params.yyyy) {
-      var year = req.params.yyyy;
-      var monthIndex = parseInt(req.params.mm, 10) - 1;
-      var from = new Date(year, monthIndex, 1).getTime();
-      var to = new Date(year, monthIndex+1, 1).getTime();
-      filter = {
-        'matchDay': {
-          $gte: new Date(from),
-          $lt: new Date(to)
-        }
-      };
-    } else {
-      filter = {};
-    }
+  var getGames = function (req, res, filter, sort) {
     var response;
-      Game.find(filter)
+    Game.find(filter)
       .populate('homeTeam awayTeam')
-      .sort({ matchDay: -1})
+      .sort(sort)
       .exec(function (err, games) {
         // Mongo command to fetch all data from collection.
         if (err) {
@@ -321,9 +306,30 @@
     };
 
   router.route('/vp/games/:yyyy/:mm')
-    .get(getGames);
+    .get(function (req, res) {
+      var year = req.params.yyyy;
+      var monthIndex = parseInt(req.params.mm, 10) - 1;
+      var from = new Date(year, monthIndex, 1).getTime();
+      var to = new Date(year, monthIndex+1, 1).getTime();
+      var filter = {
+        'matchDay': {
+          $gte: new Date(from),
+          $lt: new Date(to)
+        }
+      };
+      var sort = { matchDay: -1};
+      return getGames(req, res, filter, sort);
+    });
   router.route('/vp/games')
-    .get(getGames);
+    .get(function (req, res) {
+      var filter = {
+        'matchDay': {
+          $gte: Date.now()
+        }
+      };
+      var sort = { matchDay: 1};
+      return getGames(req, res, filter, sort);
+    });
 
   router.route('/vp/game')
     .post(function (req, res) {
