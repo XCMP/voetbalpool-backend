@@ -57,7 +57,7 @@
 
   });
 
-  GameSchema.index({homeTeam: 1, awayTeam: 1}, {unique: true});
+  GameSchema.index({matchDay: 1, homeTeam: 1, awayTeam: 1}, {unique: true});
 
   module.exports = mongoose.model('Game', GameSchema);
 
