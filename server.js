@@ -1,4 +1,4 @@
-(function (express, path, bodyparser, _,
+(function (express, bodyparser, _,
 
         db, Poolplayer, Club, Game, Prediction,
 
@@ -529,7 +529,7 @@
 
   console.log('Voetbalpool backend server running on PORT %s', PORT);
 
-})(require('express'), require('path'), require('body-parser'), require('underscore'),
+})(require('express'), require('body-parser'), require('underscore'),
 
     require('./src/app/mongo/db'),
     require('./src/app/mongo/models/poolplayer'),
