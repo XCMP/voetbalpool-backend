@@ -1,6 +1,6 @@
 (function (Game) {
 
-  // get /vp/prediction/months
+  // get /vp/months
   exports.months = function (req, res) {
     var response;
     Game.aggregate([
