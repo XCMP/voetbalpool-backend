@@ -2,27 +2,20 @@
   "name": "voetbalpool-backend",
   "version": "1.0.0",
   "description": "Voetbalpool Backend",
-  "main": "voetbalpool-backend.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/XCMP/voetbalpool-backend.git"
   },
   "author": "XCMP",
   "license": "ISC",
-  "dependencies": {},
-  "devDependencies": {
-    "body-parser": "^1.14.2",
+  "dependencies": {
     "express": "^4.13.3",
-    "gulp": "^3.9.0",
-    "gulp-express": "^0.3.5",
-    "jquery": "^1.11.3",
+    "body-parser": "^1.14.2",
     "mongoose": "^4.3.4",
-    "path": "^0.12.7",
-    "underscore": "^1.8.3",
-    "underscore.string": "^3.2.2"
+    "underscore": "^1.8.3"
   },
-  "homepage": "https://github.com/XCMP/voetbalpool-backend#readme"
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-express": "^0.3.5"
+  }
 }
