@@ -2,6 +2,7 @@
   "name": "voetbalpool-backend",
   "version": "1.0.0",
   "description": "Voetbalpool Backend",
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/XCMP/voetbalpool-backend.git"
