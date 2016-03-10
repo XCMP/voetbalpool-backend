@@ -1,6 +1,8 @@
 (function (mongoose) {
 
-  var dbURI = 'mongodb://localhost:27017/voetbalpool';
+  var MONGO_CONNECTION_STRING = process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://localhost:27017';
+  var MONGO_DB_NAME = process.env.OPENSHIFT_GEAR_NAME || 'voetbalpool';
+  var dbURI = MONGO_CONNECTION_STRING + '/' + MONGO_DB_NAME;
 
   mongoose.connect(dbURI);
 

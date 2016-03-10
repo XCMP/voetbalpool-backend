@@ -1,6 +1,4 @@
-# voetbalpool
-
-- You will need a globally installed handlebars
+# voetbalpool-backend
 
 - documentation:
-  - https://docs.google.com/presentation/d/1dsyRNoH9LB22KLXamcA5PKyrjFxgEe7Z8mreDVuzMwY/edit#slide=id.p
+  - https://docs.google.com/presentation/d/19L55JPImSnMoF2brXLs_pBvnHIv85prlE7HGICXEdS8/edit#slide=id.p

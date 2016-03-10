@@ -1,6 +1,8 @@
 (function (express, bodyparser, db, PoolplayersRouter, ClubsRouter, GamesRouter, PredictionsRouter, CommonRouter) {
 
-  var PORT = 3001;
+  var PORT = process.env.OPENSHIFT_NODEJS_PORT || 3001
+  var IP = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+  
   var server = express();
 
   server.use(bodyparser.json());
@@ -45,9 +47,9 @@
   // common routing
   server.get('/vp/months', CommonRouter.months);
 
-  server.listen(PORT);
+  server.listen(PORT, IP);
 
-  console.log('Voetbalpool backend server running on PORT %s', PORT);
+  console.log('Voetbalpool backend server running on %s:%s', IP, PORT);
 
 })(require('express'), require('body-parser'), require('./src/app/mongo/db'),
 

@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Voetbalpool Backend",
   "main": "server.js",
+  "script": {
+    "prestart": "npm install",
+    "start": "node server.js"
+  }
   "repository": {
     "type": "git",
     "url": "git+https://github.com/XCMP/voetbalpool-backend.git"
