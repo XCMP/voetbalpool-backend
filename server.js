@@ -1,4 +1,4 @@
-(function (express, bodyparser, db, PoolplayersRouter, ClubsRouter, GamesRouter, PredictionsRouter, CommonRouter) {
+(function (express, bodyparser, db, PoolplayersRouter, ClubsRouter, GamesRouter, PredictionsRouter, CommonRouter, HealthRouter) {
 
   var PORT = process.env.OPENSHIFT_NODEJS_PORT || 3001
   var IP = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
@@ -47,6 +47,9 @@
   // common routing
   server.get('/vp/months', CommonRouter.months);
 
+  // health check by OpenShift
+  server.get('/health', HealthRouter.health);
+
   server.listen(PORT, IP);
 
   console.log('Voetbalpool backend server running on %s:%s', IP, PORT);
@@ -57,6 +60,7 @@
   require('./src/app/routes/clubs'),
   require('./src/app/routes/games'),
   require('./src/app/routes/predictions'),
-  require('./src/app/routes/common')
+  require('./src/app/routes/common'),
+  require('./src/app/routes/health')
 
 );
