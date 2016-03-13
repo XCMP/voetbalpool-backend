@@ -17,32 +17,32 @@
   // ROUTING
   // poolplayers routing
   server.get('/vp/poolplayers', PoolplayersRouter.list);
-  server.post('/vp/poolplayer', PoolplayersRouter.create);
-  server.get('/vp/poolplayer/:id', PoolplayersRouter.get);
-  server.put('/vp/poolplayer/:id', PoolplayersRouter.update);
-  server.delete('/vp/poolplayer/:id', PoolplayersRouter.delete);
+  server.post('/vp/poolplayers', PoolplayersRouter.create);
+  server.get('/vp/poolplayers/:id', PoolplayersRouter.get);
+  server.put('/vp/poolplayers/:id', PoolplayersRouter.update);
+  server.delete('/vp/poolplayers/:id', PoolplayersRouter.delete);
 
   // clubs routing
   server.get('/vp/clubs', ClubsRouter.list);
-  server.post('/vp/club', ClubsRouter.create);
-  server.get('/vp/club/:id', ClubsRouter.get);
-  server.put('/vp/club/:id', ClubsRouter.update);
-  server.delete('/vp/club/:id', ClubsRouter.delete);
+  server.post('/vp/clubs', ClubsRouter.create);
+  server.get('/vp/clubs/:id', ClubsRouter.get);
+  server.put('/vp/clubs/:id', ClubsRouter.update);
+  server.delete('/vp/clubs/:id', ClubsRouter.delete);
 
   // games routing
   server.get('/vp/games/:yyyy/:mm', GamesRouter.listByMonth);
   server.get('/vp/games', GamesRouter.list);
-  server.post('/vp/game', GamesRouter.create);
-  server.get('/vp/game/:id', GamesRouter.get);
-  server.put('/vp/game/:id', GamesRouter.update);
-  server.delete('/vp/game/:id', GamesRouter.delete);
+  server.post('/vp/games', GamesRouter.create);
+  server.get('/vp/games/:id', GamesRouter.get);
+  server.put('/vp/games/:id', GamesRouter.update);
+  server.delete('/vp/games/:id', GamesRouter.delete);
 
   // prediction routing
   server.get('/vp/predictions/:yyyy/:mm', PredictionsRouter.listByMonth);
-  server.post('/vp/prediction', PredictionsRouter.create);
-  server.get('/vp/prediction/:id', PredictionsRouter.get);
-  server.put('/vp/prediction/:id', PredictionsRouter.update);
-  server.delete('/vp/prediction/:id', PredictionsRouter.delete);
+  server.post('/vp/predictions', PredictionsRouter.create);
+  server.get('/vp/predictions/:id', PredictionsRouter.get);
+  server.put('/vp/predictions/:id', PredictionsRouter.update);
+  server.delete('/vp/predictions/:id', PredictionsRouter.delete);
 
   // common routing
   server.get('/vp/months', CommonRouter.months);
