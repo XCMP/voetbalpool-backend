@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Voetbalpool Backend",
   "main": "server.js",
-  "script": {
+  "scripts": {
     "prestart": "npm install",
     "start": "node server.js"
   },
