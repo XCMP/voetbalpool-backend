@@ -1,4 +1,4 @@
-(function (Prediction, Game, Poolplayer, Club) {
+(function (Prediction, Game, Poolplayer, Club, _) {
 
   // get /vp/predictions/:yyyy/:mm
   exports.listByMonth = function (req, res) {
@@ -32,6 +32,9 @@
           if (err) {
               response = {'error' : true,'message' : 'Error fetching data'};
           } else {
+            predictions = _.sortBy(predictions, function(prediction) {
+              return new Date(prediction.game.matchDay).getTime();
+            });
             response = predictions;
           }
           res.json(response);
@@ -135,5 +138,6 @@
   require('../mongo/models/prediction'),
   require('../mongo/models/game'),
   require('../mongo/models/poolplayer'),
-  require('../mongo/models/club')
+  require('../mongo/models/club'),
+  require('underscore')
 );
