@@ -16,12 +16,28 @@
 
     'homeTeamGoals': {
       type: Number,
-      required: 'Je moet de score helemaal invullen.'
+      default: null,
+      validate: [
+        {
+          validator: function (value) {
+            return (this.awayTeamGoals !== null && value !== null);
+          },
+          message: 'Je moet de score volledig invullen.'
+        }
+      ]
     },
 
     'awayTeamGoals': {
       type: Number,
-      required: 'Je moet de score helemaal invullen.'
+      default: null,
+      validate: [
+        {
+          validator: function (value) {
+            return (this.awayTeamGoals !== null && value !== null);
+          },
+          message: 'Je moet de score volledig invullen.'
+        }
+      ]
     },
 
     'score': {
