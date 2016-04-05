@@ -9,7 +9,12 @@
 
     'logoBase64Url': {
       type: String,
-      required: 'Je moet de base64 image url invullen.',
+      default: undefined
+    },
+
+    'logoFilename': {
+      type: String,
+      required: 'Je moet de bestandsnaam van het logo invullen.',
     }
 
   });

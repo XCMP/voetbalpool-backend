@@ -20,7 +20,7 @@
   exports.create = function (req, res) {
     var club = new Club();
     club.name = req.body.name;
-    club.logoBase64Url =  req.body.logoBase64Url;
+    club.logoFilename = req.body.logoFilename;
     club.save(function (err) {
       if (err) {
         res.json({ 
@@ -61,7 +61,8 @@
   exports.update = function (req, res) {
     return Club.findById(req.params.id, function (err, club) {
       club.name = req.body.name;
-      club.logoBase64Url =  req.body.logoBase64Url;
+      club.logoFilename = req.body.logoFilename;
+      club.logoBase64Url = undefined;
       return club.save(function (err) {
         if (err) {
           res.json({ 
