@@ -33,7 +33,7 @@
               response = {'error' : true,'message' : 'Error fetching data'};
           } else {
             predictions = _.sortBy(predictions, function(prediction) {
-              return new Date(prediction.game.matchDay).getTime();
+              return new Date(prediction.game.matchDay).getTime() + prediction.game.homeTeam.id;
             });
             response = predictions;
           }
