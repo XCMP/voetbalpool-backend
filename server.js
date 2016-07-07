@@ -1,7 +1,7 @@
-(function (express, bodyparser, db, PoolplayersRouter, ClubsRouter, GamesRouter, PredictionsRouter, CommonRouter, HealthRouter) {
+(function (express, bodyparser, db, PoolplayersRouter, ClubsRouter, GamesRouter, PredictionsRouter, HealthRouter) {
 
-  var PORT = process.env.OPENSHIFT_NODEJS_PORT || 3001
-  var IP = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+  var PORT = process.env.OPENSHIFT_NODEJS_PORT || 3001;
+  var IP = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
   
   var server = express();
 
@@ -44,9 +44,6 @@
   server.put('/vp/predictions/:id', PredictionsRouter.update);
   server.delete('/vp/predictions/:id', PredictionsRouter.delete);
 
-  // common routing
-  server.get('/vp/months', CommonRouter.months);
-
   // health check by OpenShift
   server.get('/health', HealthRouter.health);
 
@@ -60,7 +57,6 @@
   require('./src/app/routes/clubs'),
   require('./src/app/routes/games'),
   require('./src/app/routes/predictions'),
-  require('./src/app/routes/common'),
   require('./src/app/routes/health')
 
 );
