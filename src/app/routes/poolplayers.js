@@ -19,6 +19,7 @@
     var poolplayer = new Poolplayer();
     poolplayer.name = req.body.name;
     poolplayer.birthday =  req.body.birthday;
+    poolplayer.color = req.body.color;
     poolplayer.notes = req.body.notes;
     poolplayer.save(function (err) {
       if (err) {
@@ -60,6 +61,7 @@
     return Poolplayer.findById(req.params.id, function (err, poolplayer) {
       poolplayer.name = req.body.name;
       poolplayer.birthday =  req.body.birthday;
+      poolplayer.color = req.body.color;
       poolplayer.notes = req.body.notes;
       return poolplayer.save(function (err) {
         if (err) {

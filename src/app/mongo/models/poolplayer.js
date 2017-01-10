@@ -26,11 +26,31 @@
       ]
     },
 
+    'color' : {
+      type: String,
+      required: 'Je moet een kleur invullen.',
+      validate: [
+        {
+          validator: function (value) {
+            return value.startsWith('#');
+          },
+          message: 'Kleur moet beginnen met een \'#\'.'
+        },
+        {
+          validator: function (value) {
+            return value.length == 7;
+          },
+          message: 'Kleur als volgt invullen: #23EE44.'
+        }
+      ]
+    },
+
     'notes': String
     
   });
 
   PoolplayerSchema.index({name: 1}, {unique: true});
+  PoolplayerSchema.index({color: 1}, {unique: true});
 
   module.exports = mongoose.model('Poolplayer', PoolplayerSchema);
 
