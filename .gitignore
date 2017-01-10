@@ -1,3 +1,4 @@
 node_modules
 .idea
 voetbalpool-backend.iml
+npm-debug.log
