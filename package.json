@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm install",
     "start": "node server.js",
-    "run_server": "node server.js"
+    "server": "node server.js"
   },
   "repository": {
     "type": "git",
