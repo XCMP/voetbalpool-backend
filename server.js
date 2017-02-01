@@ -15,6 +15,9 @@
   });
 
   // ROUTING
+  //auth
+  server.get('/vp/auth/:id/:password', PoolplayersRouter.auth);
+
   // poolplayers routing
   server.get('/vp/poolplayers', PoolplayersRouter.list);
   server.post('/vp/poolplayers', PoolplayersRouter.create);
