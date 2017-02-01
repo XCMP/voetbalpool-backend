@@ -56,6 +56,23 @@
     });
   };
 
+  // get /vp/auth/:id/:password
+  exports.auth = function (req, res) {
+    console.log('auth backend');
+    Poolplayer.findById(req.params.id, function (err, poolplayer) {
+      if ((poolplayer.get('password') !== req.params.password) || err) {
+        res.json({
+          status  : 401,
+          error   : true,
+          response: err,
+          message : 'Error not authorized'
+        });
+      } else {
+        res.json(poolplayer);
+      }
+    });
+  };
+
   // put /vp/poolplayer/:id
   exports.update = function (req, res) {
     return Poolplayer.findById(req.params.id, function (err, poolplayer) {
